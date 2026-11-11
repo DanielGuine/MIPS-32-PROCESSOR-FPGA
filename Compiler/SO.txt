@@ -1,0 +1,61 @@
+void executa_com_preempcao(int prog)
+{
+    Load_Prog(prog);
+    salva_regs();
+    SetOffsetMD(prog);
+    carrega_regs();
+    Set_Quantum();
+    Jalr();
+    salva_regs();
+    SetOffsetMD(0);
+    carrega_regs();
+    SetLCD(13);
+}
+
+void executa_sem_preempcao(int prog)
+{
+    Load_Prog(prog);
+    salva_regs();
+    SetOffsetMD(prog);
+    limpa_regs();
+    Jalr();
+    limpa_regs();
+    SetOffsetMD(0);
+    carrega_regs();
+    SetLCD(13);
+}
+
+void main(void)
+{
+    int i;
+    int o_que_executar;
+    int programa;
+
+    i = 0;
+
+    while (i < 1)
+    {
+        SetLCD(10);
+        o_que_executar = input();
+        if (o_que_executar == 0)
+        {
+            i = 1;
+        }
+        if (o_que_executar == 1)
+        {
+            SetLCD(12);
+            programa = input();
+
+            executa_sem_preempcao(programa);
+        }
+        if (o_que_executar == 2)
+        {
+            SetLCD(12);
+            programa = input();
+
+            executa_com_preempcao(programa);
+        }
+
+        SetLCD(11);
+    }
+}
